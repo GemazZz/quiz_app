@@ -1,0 +1,9 @@
+[
+  {
+    "category": "javascript",
+    "questions": [
+      { "quetionId": "1", "question": "what is 2+2?", "answers": ["2", "3", "4", "5"] },
+      { "quetionId": "2", "question": "what is 3+3?", "answers": ["6", "7", "8", "9"] }
+    ]
+  }
+]
