@@ -10,26 +10,30 @@ import HTML from "./icons/HTML.svg";
 import CSS from "./icons/CSS.svg";
 import javascript from "./icons/javascript.svg";
 import accessibility from "./icons/accessibility.svg";
+import X from "./icons/X.svg";
+import V from "./icons/V.svg";
 
 const Home = () => {
-  const [category, setCategory] = useState<string>(localStorage.getItem("category") || "");
+  const [category, setCategory] = useState<string>(() => localStorage.getItem("category") || "");
   const [questionIndex, setQuestionIndex] = useState<number>(() => parseInt(localStorage.getItem("questionIndex") || "1000"));
   const [printData, setPrintData] = useState<PrintDataProps[]>(() => JSON.parse(localStorage.getItem("printData") || "[]"));
   const [chosenAnswer, setChosenAnswer] = useState<string>(() => localStorage.getItem("chosenAnswer") || "");
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState<boolean>(() => JSON.parse(localStorage.getItem("isAnswerSubmitted") || "false"));
   const [score, setScore] = useState<number>(() => parseInt(localStorage.getItem("score") || "0"));
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => JSON.parse(localStorage.getItem("isDarkMode") || "false"));
+  const [progressPercentage, setProgressPercentage] = useState<number>();
 
   useEffect(() => {
-    if (category) {
+    if (category && printData.length === 0) {
       const filteredData = questionData.filter((data) => data.category === category);
       if (filteredData.length === 1) {
         const shuffledQuestions = shuffleArray(filteredData[0].questions);
         setPrintData(shuffledQuestions);
         localStorage.setItem("printData", JSON.stringify(shuffledQuestions));
+        setProgressPercentage(((questionIndex + 1) / printData.length) * 100);
       }
     }
-  }, [category]);
+  }, [category, printData.length]);
 
   useEffect(() => {
     if (isAnswerSubmitted) {
@@ -48,12 +52,48 @@ const Home = () => {
     localStorage.setItem("category", category);
     localStorage.setItem("isAnswerSubmitted", JSON.stringify(isAnswerSubmitted));
     localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
+    setProgressPercentage(((questionIndex + 1) / printData.length) * 100);
   }, [questionIndex, chosenAnswer, isAnswerSubmitted, isDarkMode]);
 
   return (
-    <div className={`${isDarkMode ? "bg-black" : "bg-[#eef1f6]"}`}>
-      <div className="w-[100%] h-[72px] px-[24px] py-[16px] flex justify-between items-center bg-[#eef1f6]">
-        <div className="w-[167px] h-[40px]"></div>
+    <div>
+      <div
+        className={`w-[100%] h-[72px] px-[24px] py-[16px] flex justify-between items-center ${isDarkMode ? "bg-[#313d51]" : "bg-[#eef1f6]"}`}
+      >
+        <div className="w-[167px] h-[40px] flex justify-start items-center">
+          {category === "HTML" && (
+            <>
+              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#FFF1E9] mr-[16px]">
+                <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
+              </div>
+              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>HTML</p>
+            </>
+          )}
+          {category === "CSS" && (
+            <>
+              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#E0FDEF] mr-[16px]">
+                <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
+              </div>
+              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>CSS</p>
+            </>
+          )}
+          {category === "javascript" && (
+            <>
+              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#EBF0FF] mr-[16px]">
+                <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
+              </div>
+              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Javascript</p>
+            </>
+          )}
+          {category === "Accessibility" && (
+            <>
+              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F6E7FF] mr-[16px]">
+                <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
+              </div>
+              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Accessibility</p>
+            </>
+          )}
+        </div>
         <div className="w-[80px] h-[20px] flex justify-between items-center ">
           <Image src={sun} alt={"sun"} width={16} />
           <label className="relative inline-block h-[20px] w-[32px] m-[4px]">
@@ -64,101 +104,151 @@ const Home = () => {
           <Image src={moon} alt={"moon"} width={16} />
         </div>
       </div>
-      <div className="w-[100%] h-[740px] pt-[32px] px-[24px] bg-[#eef1f6]">
-        <div className="w-[100%] h-[125PX] mb-[40px]">
-          <p className="font-thin text-[40px] text-[#313E51] leading-[100%] mb-[8px]">Welcome to the</p>
-          <p className="font-bold text-[40px] text-[#313E51] leading-[100%] mb-[16px]">Frontend Quiz!</p>
-          <p className="font-[400] text-[14px] text-[#313E51] italic ">Pick a subject to get started.</p>
-        </div>
+      <div className={`w-[100%] h-[740px] pt-[32px] px-[24px] ${isDarkMode ? "bg-[#313d51]" : "bg-[#eef1f6]"}`}>
         {questionIndex === 1000 && (
-          <div className="flex flex-col justify-center items-center">
-            <button
-              className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-              style={{
-                background: "#FFF",
-                boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-              }}
-              onClick={() => {
-                setCategory("HTML");
-                setQuestionIndex(0);
-              }}
-            >
-              <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#FFF1E9] mr-[16px]">
-                <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className="text-[18px] text-[#313E51] leading-[100%] font-semibold">HTML</p>
-            </button>
-            <button
-              className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-              style={{
-                background: "#FFF",
-                boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-              }}
-              onClick={() => {
-                setCategory("CSS");
-                setQuestionIndex(0);
-              }}
-            >
-              <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#E0FDEF] mr-[16px]">
-                <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className="text-[18px] text-[#313E51] leading-[100%] font-semibold">CSS</p>
-            </button>
-            <button
-              className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-              style={{
-                background: "#FFF",
-                boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-              }}
-              onClick={() => {
-                setCategory("javascript");
-                setQuestionIndex(0);
-              }}
-            >
-              <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#EBF0FF] mr-[16px]">
-                <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className="text-[18px] text-[#313E51] leading-[100%] font-semibold">Javascript</p>
-            </button>
-            <button
-              className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-              style={{
-                background: "#FFF",
-                boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-              }}
-              onClick={() => {
-                setCategory("accessibility");
-                setQuestionIndex(0);
-              }}
-            >
-              <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#F6E7FF] mr-[16px]">
-                <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className="text-[18px] text-[#313E51] leading-[100%] font-semibold">Accessibility</p>
-            </button>
-          </div>
+          <>
+            <div className="w-[100%] h-[125PX] mb-[40px]">
+              <p className={`font-thin text-[40px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] mb-[8px]`}>Welcome to the</p>
+              <p className={`font-bold text-[40px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] mb-[16px]`}>Frontend Quiz!</p>
+              <p className={`font-[400] text-[14px] ${isDarkMode ? "text-white" : "text-[#313E51]"} italic`}>Pick a subject to get started.</p>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <button
+                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
+                style={{
+                  background: isDarkMode ? "#404c64" : "#FFF",
+                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                }}
+                onClick={() => {
+                  setCategory("HTML");
+                  setQuestionIndex(0);
+                }}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#FFF1E9] mr-[16px]">
+                  <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
+                </div>
+                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>HTML</p>
+              </button>
+              <button
+                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
+                style={{
+                  background: isDarkMode ? "#404c64" : "#FFF",
+                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                }}
+                onClick={() => {
+                  setCategory("CSS");
+                  setQuestionIndex(0);
+                }}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#E0FDEF] mr-[16px]">
+                  <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
+                </div>
+                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>CSS</p>
+              </button>
+              <button
+                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
+                style={{
+                  background: isDarkMode ? "#404c64" : "#FFF",
+                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                }}
+                onClick={() => {
+                  setCategory("javascript");
+                  setQuestionIndex(0);
+                }}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#EBF0FF] mr-[16px]">
+                  <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
+                </div>
+                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Javascript</p>
+              </button>
+              <button
+                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
+                style={{
+                  background: isDarkMode ? "#404c64" : "#FFF",
+                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                }}
+                onClick={() => {
+                  setCategory("accessibility");
+                  setQuestionIndex(0);
+                }}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F6E7FF] mr-[16px]">
+                  <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
+                </div>
+                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Accessibility</p>
+              </button>
+            </div>
+          </>
         )}
         {questionIndex !== 1000 && questionIndex < printData.length && (
-          <div className="flex justify-center items-center gap-4">
-            <h1>
-              {questionIndex + 1}/{printData.length}
-            </h1>
-            <div>{printData[questionIndex]?.question}</div>
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-[100%] mb-[40px]">
+              <p className={`font-[400] text-[14px] ${isDarkMode ? "text-white" : "text-[#313E51]"} italic mb-[12px]`}>
+                question {questionIndex + 1} of {printData.length}
+              </p>
+              <p className={`font-[600] text-[20px] ${isDarkMode ? "text-white" : "text-[#313E51]"} mb-[24px]`}>
+                {printData[questionIndex]?.question}
+              </p>
+              <div className={`w-[100%] h-[16px] ${isDarkMode ? "bg-[#313d51]" : "bg-[#fff]"} rounded-[999px] p-[4px] flex justify-start`}>
+                <div className={`h-[8px] bg-purple-500 rounded-[104px]`} style={{ width: `${progressPercentage}%` }}></div>
+              </div>
+            </div>
             {printData[questionIndex]?.answers.map((multipleChoice, index) => {
               const correctAnswer = printData[questionIndex]?.correctAnswer;
+              const letters = ["A", "B", "C", "D"];
               return (
                 <button
+                  style={{
+                    background: isDarkMode ? "#404c64" : "#FFF",
+                    boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                  }}
                   key={index}
-                  className={` ${isAnswerSubmitted && correctAnswer === multipleChoice ? "bg-[green]" : ""} ${
-                    multipleChoice === chosenAnswer && !isAnswerSubmitted ? "bg-[yellow]" : ""
-                  } ${multipleChoice === chosenAnswer && isAnswerSubmitted && chosenAnswer !== correctAnswer ? "bg-[red]" : ""} `}
+                  className={`w-[100%] h-[64px] p-[12px] flex items-center justify-between rounded-[12px] mb-[12px] ${
+                    isAnswerSubmitted && correctAnswer === multipleChoice ? "border-[3px] border-[#26D782]" : ""
+                  } ${multipleChoice === chosenAnswer && !isAnswerSubmitted ? "border-[3px] border-[#A729F5]" : ""} ${
+                    multipleChoice === chosenAnswer && isAnswerSubmitted && chosenAnswer !== correctAnswer
+                      ? "border-[3px] border-[#EE5454]"
+                      : ""
+                  } `}
                   onClick={() => {
                     if (!isAnswerSubmitted) {
                       setChosenAnswer(multipleChoice);
                     }
                   }}
                 >
-                  {multipleChoice}
+                  <div className="flex justify-center items-center">
+                    <div
+                      className={`w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F4F6FA] mr-[16px]`}
+                      style={
+                        multipleChoice === chosenAnswer && !isAnswerSubmitted
+                          ? { backgroundColor: "#A729F5" }
+                          : isAnswerSubmitted && correctAnswer === multipleChoice
+                          ? { backgroundColor: "#26D782" }
+                          : multipleChoice === chosenAnswer && isAnswerSubmitted && chosenAnswer !== correctAnswer
+                          ? { backgroundColor: "#EE5454" }
+                          : { backgroundColor: "#F4F6FA" }
+                      }
+                    >
+                      <p
+                        className={`text-18px font-bold w-[100%] "text-[#313E51]" ${
+                          (multipleChoice === chosenAnswer && !isAnswerSubmitted) ||
+                          (isAnswerSubmitted && correctAnswer === multipleChoice) ||
+                          (multipleChoice === chosenAnswer && isAnswerSubmitted && chosenAnswer !== correctAnswer)
+                            ? "text-white"
+                            : ""
+                        }`}
+                      >
+                        {letters[index]}
+                      </p>
+                    </div>
+                    <p className="font-bold">{multipleChoice}</p>
+                  </div>
+                  <div className="w-[40px] h-[40px] flex justify-center items-center ">
+                    {multipleChoice === chosenAnswer && isAnswerSubmitted && chosenAnswer !== correctAnswer && (
+                      <Image src={X} alt={"X"} width={32} />
+                    )}
+                    {isAnswerSubmitted && correctAnswer === multipleChoice && <Image src={V} alt={"V"} width={32} />}
+                  </div>
                 </button>
               );
             })}
@@ -182,8 +272,13 @@ const Home = () => {
                     setChosenAnswer("");
                   }
                 }}
+                style={{
+                  background: isDarkMode ? "#404c64" : "#FFF",
+                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                }}
+                className="w-[100%] h-[64px] bg-[#A729F5] p-[12px] flex items-center justify-center rounded-[12px] "
               >
-                Next Question
+                <p className="text-white text-[18px]">Next Question</p>
               </button>
             )}
           </div>
@@ -196,6 +291,7 @@ const Home = () => {
                 setQuestionIndex(1000);
                 localStorage.clear();
                 setCategory("");
+                setScore(0);
               }}
             >
               Retry

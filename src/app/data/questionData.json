@@ -3,6 +3,9 @@
     "category": "javascript",
     "questions": [
       { "questionId": "1", "question": "what is 2+2?", "answers": ["2", "3", "4", "5"], "correctAnswer": "4" },
+      { "questionId": "3", "question": "what is 2+3?", "answers": ["2", "3", "4", "5"], "correctAnswer": "4" },
+      { "questionId": "4", "question": "what is 2+4?", "answers": ["2", "3", "4", "5"], "correctAnswer": "4" },
+      { "questionId": "6", "question": "what is 2+6?", "answers": ["2", "3", "4", "5"], "correctAnswer": "4" },
       { "questionId": "2", "question": "what is 3+3?", "answers": ["6", "7", "8", "9"], "correctAnswer": "6" }
     ]
   }
