@@ -38,6 +38,9 @@ const Home = () => {
         localStorage.setItem("printData", JSON.stringify(shuffledQuestions));
       }
     }
+    if (category === "") {
+      setPrintData([]);
+    }
   }, [category, printData.length]);
 
   useEffect(() => {
@@ -205,7 +208,6 @@ const Home = () => {
                   }
                 }}
                 style={{
-                  background: isDarkMode ? "#404c64" : "#FFF",
                   boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
                   backgroundColor: "#A729F5",
                 }}
@@ -224,7 +226,6 @@ const Home = () => {
                   }
                 }}
                 style={{
-                  background: isDarkMode ? "#404c64" : "#FFF",
                   boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
                   backgroundColor: "#A729F5",
                 }}
@@ -248,10 +249,12 @@ const Home = () => {
                 boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
               }}
             >
-              {category === "HTML" && <CategoryIcons category={"HTML"} isDarkMode={isDarkMode} />}
-              {category === "CSS" && <CategoryIcons category={"CSS"} isDarkMode={isDarkMode} />}
-              {category === "javascript" && <CategoryIcons category={"javascript"} isDarkMode={isDarkMode} />}
-              {category === "accessibility" && <CategoryIcons category={"accessibility"} isDarkMode={isDarkMode} />}
+              <div className="flex justify-center items-center">
+                {category === "HTML" && <CategoryIcons category={"HTML"} isDarkMode={isDarkMode} />}
+                {category === "CSS" && <CategoryIcons category={"CSS"} isDarkMode={isDarkMode} />}
+                {category === "javascript" && <CategoryIcons category={"javascript"} isDarkMode={isDarkMode} />}
+                {category === "accessibility" && <CategoryIcons category={"accessibility"} isDarkMode={isDarkMode} />}
+              </div>
               <p className={`text-[88px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>{score}</p>
               <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>
                 out of {printData.length}
@@ -265,7 +268,6 @@ const Home = () => {
                 setScore(0);
               }}
               style={{
-                background: isDarkMode ? "#404c64" : "#FFF",
                 boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
                 backgroundColor: "#A729F5",
               }}
