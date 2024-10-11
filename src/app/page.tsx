@@ -12,13 +12,21 @@ import CategoryIcons from "./components/CategoryIcons";
 import CategoryBtn from "./components/CategoryBtn";
 
 const Home = () => {
-  const [category, setCategory] = useState<string>(() => localStorage.getItem("category") || "");
-  const [questionIndex, setQuestionIndex] = useState<number>(() => parseInt(localStorage.getItem("questionIndex") || "1000"));
-  const [printData, setPrintData] = useState<PrintDataProps[]>(() => JSON.parse(localStorage.getItem("printData") || "[]"));
-  const [chosenAnswer, setChosenAnswer] = useState<string>(() => localStorage.getItem("chosenAnswer") || "");
-  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState<boolean>(() => JSON.parse(localStorage.getItem("isAnswerSubmitted") || "false"));
-  const [score, setScore] = useState<number>(() => parseInt(localStorage.getItem("score") || "0"));
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => JSON.parse(localStorage.getItem("isDarkMode") || "false"));
+  const [category, setCategory] = useState<string>(typeof window !== "undefined" ? localStorage.getItem("category") || "" : "");
+  const [questionIndex, setQuestionIndex] = useState<number>(
+    typeof window !== "undefined" ? parseInt(window.localStorage.getItem("questionIndex") || "1000") : 1000
+  );
+  const [printData, setPrintData] = useState<PrintDataProps[]>(
+    typeof window !== "undefined" ? JSON.parse(localStorage.getItem("printData") || "[]") : []
+  );
+  const [chosenAnswer, setChosenAnswer] = useState<string>(typeof window !== "undefined" ? localStorage.getItem("chosenAnswer") || "" : "");
+  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState<boolean>(
+    typeof window !== "undefined" ? JSON.parse(localStorage.getItem("isAnswerSubmitted") || "false") : false
+  );
+  const [score, setScore] = useState<number>(typeof window !== "undefined" ? parseInt(localStorage.getItem("score") || "0") : 0);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(
+    typeof window !== "undefined" ? JSON.parse(localStorage.getItem("isDarkMode") || "false") : false
+  );
   const [progressPercentage, setProgressPercentage] = useState<number>();
 
   useEffect(() => {
