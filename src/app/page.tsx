@@ -30,7 +30,6 @@ const Home = () => {
         const shuffledQuestions = shuffleArray(filteredData[0].questions);
         setPrintData(shuffledQuestions);
         localStorage.setItem("printData", JSON.stringify(shuffledQuestions));
-        setProgressPercentage(((questionIndex + 1) / printData.length) * 100);
       }
     }
   }, [category, printData.length]);
@@ -259,8 +258,14 @@ const Home = () => {
                     setIsAnswerSubmitted(true);
                   }
                 }}
+                style={{
+                  background: isDarkMode ? "#404c64" : "#FFF",
+                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                  backgroundColor: "#A729F5",
+                }}
+                className="w-[100%] h-[64px] bg-[#A729F5] p-[12px] flex items-center justify-center rounded-[12px] "
               >
-                Submit Answer
+                <p className="text-white text-[18px]">Submit Answer</p>
               </button>
             )}
             {isAnswerSubmitted && (
@@ -275,6 +280,7 @@ const Home = () => {
                 style={{
                   background: isDarkMode ? "#404c64" : "#FFF",
                   boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                  backgroundColor: "#A729F5",
                 }}
                 className="w-[100%] h-[64px] bg-[#A729F5] p-[12px] flex items-center justify-center rounded-[12px] "
               >
@@ -284,8 +290,55 @@ const Home = () => {
           </div>
         )}
         {questionIndex >= printData.length && questionIndex !== 1000 && (
-          <div className="flex justify-center items-center gap-4">
-            Your score is {score} out of {printData.length}
+          <div className="flex flex-col justify-center items-center gap-4">
+            <div className="w-[100%] h-[88PX] mb-[40px]">
+              <p className={`font-thin text-[40px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] mb-[8px]`}>Quiz completed</p>
+              <p className={`font-bold text-[40px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] mb-[16px]`}>You scored...</p>
+            </div>
+            <div
+              className="w-[100%] h-[242px] p-[32px] flex flex-col gap-[16px] justify-center items-center"
+              style={{
+                background: isDarkMode ? "#404c64" : "#FFF",
+                boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+              }}
+            >
+              {category === "HTML" && (
+                <>
+                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#FFF1E9] mr-[16px]">
+                    <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
+                  </div>
+                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>HTML</p>
+                </>
+              )}
+              {category === "CSS" && (
+                <>
+                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#E0FDEF] mr-[16px]">
+                    <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
+                  </div>
+                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>CSS</p>
+                </>
+              )}
+              {category === "javascript" && (
+                <div className="flex justify-center items-center">
+                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#EBF0FF] mr-[16px]">
+                    <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
+                  </div>
+                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Javascript</p>
+                </div>
+              )}
+              {category === "Accessibility" && (
+                <>
+                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F6E7FF] mr-[16px]">
+                    <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
+                  </div>
+                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Accessibility</p>
+                </>
+              )}
+              <p className={`text-[88px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>{score}</p>
+              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>
+                out of {printData.length}
+              </p>
+            </div>
             <button
               onClick={() => {
                 setQuestionIndex(1000);
@@ -293,8 +346,14 @@ const Home = () => {
                 setCategory("");
                 setScore(0);
               }}
+              style={{
+                background: isDarkMode ? "#404c64" : "#FFF",
+                boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
+                backgroundColor: "#A729F5",
+              }}
+              className="w-[100%] h-[64px] bg-[#A729F5] p-[12px] flex items-center justify-center rounded-[12px] "
             >
-              Retry
+              <p className="text-white text-[18px]">Play Again </p>
             </button>
           </div>
         )}
