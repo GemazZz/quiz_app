@@ -6,12 +6,10 @@ import { PrintDataProps } from "./common/props";
 import Image from "next/image";
 import sun from "./icons/sun.svg";
 import moon from "./icons/moon.svg";
-import HTML from "./icons/HTML.svg";
-import CSS from "./icons/CSS.svg";
-import javascript from "./icons/javascript.svg";
-import accessibility from "./icons/accessibility.svg";
 import X from "./icons/X.svg";
 import V from "./icons/V.svg";
+import CategoryIcons from "./components/CategoryIcons";
+import CategoryBtn from "./components/CategoryBtn";
 
 const Home = () => {
   const [category, setCategory] = useState<string>(() => localStorage.getItem("category") || "");
@@ -60,38 +58,10 @@ const Home = () => {
         className={`w-[100%] h-[72px] px-[24px] py-[16px] flex justify-between items-center ${isDarkMode ? "bg-[#313d51]" : "bg-[#eef1f6]"}`}
       >
         <div className="w-[167px] h-[40px] flex justify-start items-center">
-          {category === "HTML" && (
-            <>
-              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#FFF1E9] mr-[16px]">
-                <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>HTML</p>
-            </>
-          )}
-          {category === "CSS" && (
-            <>
-              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#E0FDEF] mr-[16px]">
-                <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>CSS</p>
-            </>
-          )}
-          {category === "javascript" && (
-            <>
-              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#EBF0FF] mr-[16px]">
-                <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Javascript</p>
-            </>
-          )}
-          {category === "Accessibility" && (
-            <>
-              <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F6E7FF] mr-[16px]">
-                <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
-              </div>
-              <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Accessibility</p>
-            </>
-          )}
+          {category === "HTML" && <CategoryIcons category={"HTML"} isDarkMode={isDarkMode} />}
+          {category === "CSS" && <CategoryIcons category={"CSS"} isDarkMode={isDarkMode} />}
+          {category === "javascript" && <CategoryIcons category={"javascript"} isDarkMode={isDarkMode} />}
+          {category === "accessibility" && <CategoryIcons category={"accessibility"} isDarkMode={isDarkMode} />}
         </div>
         <div className="w-[80px] h-[20px] flex justify-between items-center ">
           <Image src={sun} alt={"sun"} width={16} />
@@ -112,70 +82,38 @@ const Home = () => {
               <p className={`font-[400] text-[14px] ${isDarkMode ? "text-white" : "text-[#313E51]"} italic`}>Pick a subject to get started.</p>
             </div>
             <div className="flex flex-col justify-center items-center">
-              <button
-                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-                style={{
-                  background: isDarkMode ? "#404c64" : "#FFF",
-                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-                }}
+              <CategoryBtn
+                isDarkMode={isDarkMode}
+                category={"HTML"}
                 onClick={() => {
                   setCategory("HTML");
                   setQuestionIndex(0);
                 }}
-              >
-                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#FFF1E9] mr-[16px]">
-                  <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
-                </div>
-                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>HTML</p>
-              </button>
-              <button
-                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-                style={{
-                  background: isDarkMode ? "#404c64" : "#FFF",
-                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-                }}
+              />
+              <CategoryBtn
+                isDarkMode={isDarkMode}
+                category={"CSS"}
                 onClick={() => {
                   setCategory("CSS");
                   setQuestionIndex(0);
                 }}
-              >
-                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#E0FDEF] mr-[16px]">
-                  <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
-                </div>
-                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>CSS</p>
-              </button>
-              <button
-                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-                style={{
-                  background: isDarkMode ? "#404c64" : "#FFF",
-                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-                }}
+              />
+              <CategoryBtn
+                isDarkMode={isDarkMode}
+                category={"javascript"}
                 onClick={() => {
                   setCategory("javascript");
                   setQuestionIndex(0);
                 }}
-              >
-                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#EBF0FF] mr-[16px]">
-                  <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
-                </div>
-                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Javascript</p>
-              </button>
-              <button
-                className="w-[100%] h-[64px] p-[12px] flex items-center rounded-[12px] mb-[12px]"
-                style={{
-                  background: isDarkMode ? "#404c64" : "#FFF",
-                  boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
-                }}
+              />
+              <CategoryBtn
+                isDarkMode={isDarkMode}
+                category={"accessibility"}
                 onClick={() => {
                   setCategory("accessibility");
                   setQuestionIndex(0);
                 }}
-              >
-                <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F6E7FF] mr-[16px]">
-                  <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
-                </div>
-                <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Accessibility</p>
-              </button>
+              />
             </div>
           </>
         )}
@@ -302,38 +240,10 @@ const Home = () => {
                 boxShadow: "0px 16px 40px 0px rgba(143, 160, 193, 0.14)",
               }}
             >
-              {category === "HTML" && (
-                <>
-                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#FFF1E9] mr-[16px]">
-                    <Image src={HTML} alt={"HTML"} width={23.21} height={17.86} />
-                  </div>
-                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>HTML</p>
-                </>
-              )}
-              {category === "CSS" && (
-                <>
-                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#E0FDEF] mr-[16px]">
-                    <Image src={CSS} alt={"HTML"} width={23.21} height={17.86} />
-                  </div>
-                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>CSS</p>
-                </>
-              )}
-              {category === "javascript" && (
-                <div className="flex justify-center items-center">
-                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#EBF0FF] mr-[16px]">
-                    <Image src={javascript} alt={"HTML"} width={23.21} height={17.86} />
-                  </div>
-                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Javascript</p>
-                </div>
-              )}
-              {category === "Accessibility" && (
-                <>
-                  <div className="w-[40px] h-[40px] flex justify-center items-center rounded-[6px] bg-[#F6E7FF] mr-[16px]">
-                    <Image src={accessibility} alt={"HTML"} width={23.21} height={17.86} />
-                  </div>
-                  <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>Accessibility</p>
-                </>
-              )}
+              {category === "HTML" && <CategoryIcons category={"HTML"} isDarkMode={isDarkMode} />}
+              {category === "CSS" && <CategoryIcons category={"CSS"} isDarkMode={isDarkMode} />}
+              {category === "javascript" && <CategoryIcons category={"javascript"} isDarkMode={isDarkMode} />}
+              {category === "accessibility" && <CategoryIcons category={"accessibility"} isDarkMode={isDarkMode} />}
               <p className={`text-[88px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>{score}</p>
               <p className={`text-[18px] ${isDarkMode ? "text-white" : "text-[#313E51]"} leading-[100%] font-semibold`}>
                 out of {printData.length}
